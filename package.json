@@ -1,0 +1,27 @@
+{
+  "name": "weather-forecasting-app",
+  "version": "1.0.0",
+  "description": "Complete production-ready weather forecasting web application",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install --prefix server && npm install --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "start": "npm start --prefix server"
+  },
+  "keywords": [
+    "weather",
+    "forecast",
+    "react",
+    "nodejs",
+    "mongodb",
+    "openweather"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

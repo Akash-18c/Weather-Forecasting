@@ -1,0 +1,80 @@
+MIT License
+
+Copyright (c) 2024 Weather Forecasting Web Application
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Third-Party Licenses:
+
+This project uses the following third-party services and libraries:
+
+1. OpenWeather API
+   - Website: https://openweathermap.org/
+   - License: https://openweathermap.org/terms
+   - Usage: Weather data provider
+
+2. React
+   - License: MIT
+   - Website: https://react.dev/
+
+3. Tailwind CSS
+   - License: MIT
+   - Website: https://tailwindcss.com/
+
+4. Chart.js
+   - License: MIT
+   - Website: https://www.chartjs.org/
+
+5. Leaflet.js
+   - License: BSD-2-Clause
+   - Website: https://leafletjs.com/
+
+6. Framer Motion
+   - License: MIT
+   - Website: https://www.framer.com/motion/
+
+7. Express.js
+   - License: MIT
+   - Website: https://expressjs.com/
+
+8. MongoDB & Mongoose
+   - License: SSPL (Server Side Public License)
+   - Website: https://www.mongodb.com/
+
+9. Other dependencies
+   - See package.json files for complete list
+   - All dependencies use permissive licenses (MIT, Apache, BSD)
+
+---
+
+Attribution:
+
+Weather data provided by OpenWeather API
+Maps provided by OpenStreetMap contributors
+Icons from Lucide React
+
+---
+
+Disclaimer:
+
+This software is provided for educational and informational purposes.
+Weather data accuracy depends on the OpenWeather API service.
+The developers are not responsible for any decisions made based on the weather information provided by this application.

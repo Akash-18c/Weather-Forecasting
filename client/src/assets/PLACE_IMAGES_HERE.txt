@@ -1,0 +1,23 @@
+IMPORTANT: Place Your Images Here
+===================================
+
+Please copy your image files to this folder:
+d:\Weather Forecasting Web\client\src\assets\
+
+Required files:
+1. Sun.png - Your sun image for day mode
+2. moon.webp - Your moon image for night mode
+
+The images will be used in:
+- Navbar: Day/Night toggle button (shows sun when dark mode is ON, moon when OFF)
+- Weather Card: Right side next to temperature (shows sun during day, moon during night based on API data)
+
+Features added:
+✅ Custom sun/moon images in navbar toggle
+✅ Custom sun/moon images in weather card based on time of day
+✅ Floating animation for both images
+✅ Gentle rotation for moon
+✅ Glowing effect for sun
+✅ Smooth transitions
+
+After placing the images, the app will automatically use them!
