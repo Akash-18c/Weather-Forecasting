@@ -1,14 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { CloudRain, LogOut, User, Calendar, Sun, Moon } from 'lucide-react';
+import { CloudRain, LogOut, User, Calendar } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useWeather } from '../context/WeatherContext';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { sunImage, moonImage } from '../assets/images';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
-  const { darkMode, toggleDarkMode, unit, toggleUnit, theme, toggleTheme } = useWeather();
+  const { unit, toggleUnit } = useWeather();
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -61,29 +60,10 @@ const Navbar = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={toggleTheme}
-              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-orange-600/30 to-yellow-600/30 border border-orange-400/40 text-orange-200 text-sm font-bold hover:from-orange-600/40 hover:to-yellow-600/40 hover:border-orange-400/60 transition-all shadow-lg shadow-orange-500/10 flex items-center gap-1"
-            >
-              {theme === 'morning' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              <span>{theme === 'morning' ? 'Morning' : 'Night'}</span>
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               onClick={toggleUnit}
               className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600/30 to-blue-600/30 border border-cyan-400/40 text-cyan-200 text-sm font-bold hover:from-cyan-600/40 hover:to-blue-600/40 hover:border-cyan-400/60 transition-all shadow-lg shadow-cyan-500/10"
             >
               °{unit === 'metric' ? 'C' : 'F'}
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleDarkMode}
-              className="p-2 rounded-lg bg-gradient-to-r from-indigo-600/30 to-purple-600/30 border border-indigo-400/40 hover:from-indigo-600/40 hover:to-purple-600/40 hover:border-indigo-400/60 transition-all shadow-lg shadow-indigo-500/10"
-            >
-              <img src={darkMode ? sunImage : moonImage} alt={darkMode ? 'Sun' : 'Moon'} className="w-5 h-5" />
             </motion.button>
 
             {isAuthenticated ? (

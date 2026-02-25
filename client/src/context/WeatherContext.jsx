@@ -13,7 +13,7 @@ export const WeatherProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem('darkMode') === 'true' || false
   );
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'morning');
+  const [theme, setTheme] = useState('auto');
 
   useEffect(() => {
     localStorage.setItem('unit', unit);
@@ -28,10 +28,6 @@ export const WeatherProvider = ({ children }) => {
     }
   }, [darkMode]);
 
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
   const toggleUnit = () => {
     setUnit(prev => prev === 'metric' ? 'imperial' : 'metric');
   };
@@ -40,12 +36,8 @@ export const WeatherProvider = ({ children }) => {
     setDarkMode(prev => !prev);
   };
 
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'morning' ? 'night' : 'morning');
-  };
-
   return (
-    <WeatherContext.Provider value={{ unit, darkMode, theme, toggleUnit, toggleDarkMode, toggleTheme }}>
+    <WeatherContext.Provider value={{ unit, darkMode, theme, setTheme, toggleUnit, toggleDarkMode }}>
       {children}
     </WeatherContext.Provider>
   );

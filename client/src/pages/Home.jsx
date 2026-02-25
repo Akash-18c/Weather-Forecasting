@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { weatherAPI } from '../services/api';
 import { useWeather } from '../context/WeatherContext';
 import { useGeolocation } from '../hooks/useGeolocation';
-import MorningTheme from '../components/MorningTheme';
-import NightTheme from '../components/NightTheme';
+import { getTimeOfDay } from '../utils/weatherHelpers';
+import AnimatedBackground from '../components/AnimatedBackground';
 import SearchBar from '../components/SearchBar';
 import WeatherCard from '../components/WeatherCard';
 import ForecastCard from '../components/ForecastCard';
@@ -16,7 +16,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, X } from 'lucide-react';
 
 const Home = () => {
-  const { unit, theme } = useWeather();
+  const { unit, setTheme } = useWeather();
   const { location: geoLocation, getLocation, error: geoError } = useGeolocation();
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
@@ -96,10 +96,31 @@ const Home = () => {
     getLocation();
   }, []);
 
-  const ThemeWrapper = theme === 'morning' ? MorningTheme : NightTheme;
+  // Auto-detect theme based on weather and time
+  useEffect(() => {
+    if (weatherData) {
+      const condition = weatherData.weather?.[0]?.main?.toLowerCase() || '';
+      const timeOfDay = getTimeOfDay(weatherData.sys?.sunrise, weatherData.sys?.sunset);
+      
+      // Set theme based on weather condition priority, then time
+      if (condition.includes('rain') || condition.includes('drizzle') || condition.includes('thunder')) {
+        setTheme('rain');
+      } else if (timeOfDay === 'night') {
+        setTheme('night');
+      } else if (timeOfDay === 'morning') {
+        setTheme('morning');
+      } else {
+        setTheme('day');
+      }
+    }
+  }, [weatherData, setTheme]);
 
   return (
-    <ThemeWrapper>
+    <AnimatedBackground 
+      weatherCondition={weatherData?.weather?.[0]?.main}
+      sunrise={weatherData?.sys?.sunrise}
+      sunset={weatherData?.sys?.sunset}
+    >
       <div className="min-h-screen py-8 px-4">
         <div className="max-w-7xl mx-auto space-y-8">
           <AnimatePresence>
@@ -199,7 +220,7 @@ const Home = () => {
           )}
         </div>
       </div>
-    </ThemeWrapper>
+    </AnimatedBackground>
   );
 };
 

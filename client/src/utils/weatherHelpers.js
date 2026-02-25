@@ -29,50 +29,36 @@ export const formatTemp = (temp, unit) => {
 export const getWeatherGradient = (condition, timeOfDay, darkMode) => {
   const conditions = condition?.toLowerCase() || '';
   
+  // Rain/Storm - Dark blue
   if (conditions.includes('thunder')) {
-    return darkMode 
-      ? 'from-gray-900 via-gray-800 to-gray-900'
-      : 'from-gray-700 via-gray-600 to-gray-700';
+    return darkMode ? 'from-[#0f172a] via-[#1e293b] to-[#0f172a]' : 'from-[#1e3a5f] via-[#2d4a6f] to-[#1e3a5f]';
   }
   
   if (conditions.includes('rain') || conditions.includes('drizzle')) {
-    return darkMode
-      ? 'from-blue-950 via-slate-900 to-gray-900'
-      : 'from-blue-900 via-slate-700 to-gray-700';
+    return darkMode ? 'from-[#1e3a5f] via-[#2c5282] to-[#1e3a5f]' : 'from-[#2563eb] via-[#3b82f6] to-[#2563eb]';
   }
   
   if (conditions.includes('snow')) {
-    return darkMode
-      ? 'from-slate-800 via-blue-900 to-slate-900'
-      : 'from-slate-400 via-blue-300 to-slate-400';
+    return darkMode ? 'from-[#334155] via-[#475569] to-[#334155]' : 'from-[#60a5fa] via-[#93c5fd] to-[#60a5fa]';
   }
   
   if (conditions.includes('cloud')) {
-    return darkMode
-      ? 'from-slate-900 via-gray-800 to-slate-900'
-      : 'from-slate-400 via-gray-300 to-slate-400';
+    return timeOfDay === 'night' || darkMode
+      ? 'from-[#1e293b] via-[#334155] to-[#1e293b]'
+      : 'from-[#3b82f6] via-[#60a5fa] to-[#3b82f6]';
   }
   
+  // Time-based - Professional blue
   switch (timeOfDay) {
     case 'morning':
-      return darkMode
-        ? 'from-blue-900 via-blue-800 to-blue-900'
-        : 'from-[#0078D4] via-[#1E90FF] to-[#87CEEB]';
+      return darkMode ? 'from-[#1e3a8a] via-[#2563eb] to-[#1e40af]' : 'from-[#3b82f6] via-[#60a5fa] to-[#93c5fd]';
     case 'day':
-      return darkMode
-        ? 'from-blue-900 via-cyan-900 to-blue-900'
-        : 'from-blue-400 via-cyan-300 to-blue-400';
+      return darkMode ? 'from-[#1e40af] via-[#2563eb] to-[#1e3a8a]' : 'from-[#2563eb] via-[#3b82f6] to-[#60a5fa]';
     case 'evening':
-      return darkMode
-        ? 'from-orange-900 via-purple-900 to-blue-900'
-        : 'from-orange-400 via-purple-400 to-blue-600';
+      return darkMode ? 'from-[#0f172a] via-[#1e3a8a] to-[#0f172a]' : 'from-[#1e40af] via-[#3b82f6] to-[#1e3a8a]';
     case 'night':
-      return darkMode
-        ? 'from-slate-950 via-blue-950 to-black'
-        : 'from-slate-800 via-blue-900 to-black';
+      return 'from-[#0f172a] via-[#1e293b] to-[#0f172a]';
     default:
-      return darkMode
-        ? 'from-blue-900 via-cyan-900 to-blue-900'
-        : 'from-blue-400 via-cyan-300 to-blue-400';
+      return darkMode ? 'from-[#1e40af] via-[#2563eb] to-[#1e3a8a]' : 'from-[#2563eb] via-[#3b82f6] to-[#60a5fa]';
   }
 };

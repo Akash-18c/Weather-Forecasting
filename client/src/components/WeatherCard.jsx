@@ -5,21 +5,11 @@ import { useWeather } from '../context/WeatherContext';
 import { useAuth } from '../context/AuthContext';
 import { userAPI } from '../services/api';
 import { useState, useMemo } from 'react';
-import { sunImage, moonImage } from '../assets/images';
-import GlassCard from './GlassCard';
-import DarkGlassCard from './DarkGlassCard';
 
 const WeatherCard = ({ data, location }) => {
-  const { unit, theme } = useWeather();
+  const { unit } = useWeather();
   const { isAuthenticated } = useAuth();
   const [isFavorite, setIsFavorite] = useState(false);
-
-  const isMorning = theme === 'morning';
-
-  const isNightTime = useMemo(() => {
-    const iconCode = data?.weather[0]?.icon || '';
-    return iconCode.endsWith('n');
-  }, [data]);
 
   const handleAddFavorite = async () => {
     if (!isAuthenticated) return;
@@ -36,29 +26,32 @@ const WeatherCard = ({ data, location }) => {
     }
   };
 
-  const CardComponent = isMorning ? GlassCard : DarkGlassCard;
+  const getWeatherIcon = () => {
+    const iconCode = data?.weather[0]?.icon || '01d';
+    return `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
+  };
 
   return (
-    <CardComponent className="p-8">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-8 shadow-2xl"
+    >
       <div className="flex justify-between items-start mb-6">
         <div>
-          <motion.h2 
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            className={`text-4xl font-bold mb-2 ${isMorning ? 'text-white drop-shadow-lg' : 'text-white/90'}`}
-          >
-            {location.name}, {location.country}
-          </motion.h2>
-          <p className={`text-lg capitalize font-medium ${isMorning ? 'text-white/80' : 'text-white/70'}`}>
+          <h2 className="text-4xl font-bold mb-2 text-white">
+            {location.name}
+          </h2>
+          <p className="text-lg capitalize text-white/80">
             {data.weather[0].description}
           </p>
         </div>
         {isAuthenticated && !isFavorite && (
           <motion.button
-            whileHover={{ scale: 1.1, rotate: 180 }}
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={handleAddFavorite}
-            className="p-2 rounded-full bg-white/10 border border-white/30 hover:bg-white/20 transition-all"
+            className="p-2 rounded-full bg-white/10 border border-white/30 hover:bg-white/20"
           >
             <Star className="w-6 h-6 text-yellow-300" />
           </motion.button>
@@ -66,85 +59,55 @@ const WeatherCard = ({ data, location }) => {
       </div>
 
       <div className="flex items-center justify-between mb-8">
-        <motion.div
-          className={`text-8xl font-bold ${isMorning ? 'text-white' : 'text-white/90'}`}
-          style={isMorning ? { textShadow: '0 0 40px rgba(255,255,255,0.3)' } : {}}
-          animate={{ scale: [1, 1.02, 1] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        >
+        <div className="text-8xl font-bold text-white">
           {formatTemp(data.main.temp, unit)}
-        </motion.div>
+        </div>
         
-        <motion.div
-          animate={{ y: [0, -10, 0], rotate: isNightTime ? [0, 5, 0, -5, 0] : 0 }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          className="relative"
-        >
-          <img
-            src={isNightTime ? moonImage : sunImage}
-            alt={isNightTime ? 'Moon' : 'Sun'}
-            className="w-32 h-32 drop-shadow-2xl"
-          />
-          {!isNightTime && (
-            <motion.div
-              className="absolute inset-0 rounded-full bg-yellow-400/20 blur-3xl"
-              animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          )}
-        </motion.div>
+        <img
+          src={getWeatherIcon()}
+          alt="weather"
+          className="w-40 h-40 drop-shadow-2xl"
+        />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <motion.div 
-          whileHover={{ scale: 1.05 }}
-          className={`rounded-xl p-4 ${isMorning ? 'bg-white/10 border border-white/20' : 'bg-white/5 border border-white/10'}`}
-        >
-          <div className={`flex items-center gap-2 mb-2 ${isMorning ? 'text-white/90' : 'text-blue-300'}`}>
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-2 text-white/80">
             <Wind className="w-4 h-4" />
-            <span className="text-sm font-semibold">Wind</span>
+            <span className="text-sm">Wind</span>
           </div>
           <p className="text-2xl font-bold text-white">
             {data.wind.speed} {unit === 'metric' ? 'm/s' : 'mph'}
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div 
-          whileHover={{ scale: 1.05 }}
-          className={`rounded-xl p-4 ${isMorning ? 'bg-white/10 border border-white/20' : 'bg-white/5 border border-white/10'}`}
-        >
-          <div className={`flex items-center gap-2 mb-2 ${isMorning ? 'text-white/90' : 'text-blue-300'}`}>
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-2 text-white/80">
             <Droplets className="w-4 h-4" />
-            <span className="text-sm font-semibold">Humidity</span>
+            <span className="text-sm">Humidity</span>
           </div>
           <p className="text-2xl font-bold text-white">{data.main.humidity}%</p>
-        </motion.div>
+        </div>
 
-        <motion.div 
-          whileHover={{ scale: 1.05 }}
-          className={`rounded-xl p-4 ${isMorning ? 'bg-white/10 border border-white/20' : 'bg-white/5 border border-white/10'}`}
-        >
-          <div className={`flex items-center gap-2 mb-2 ${isMorning ? 'text-white/90' : 'text-blue-300'}`}>
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-2 text-white/80">
             <Eye className="w-4 h-4" />
-            <span className="text-sm font-semibold">Visibility</span>
+            <span className="text-sm">Visibility</span>
           </div>
           <p className="text-2xl font-bold text-white">
             {(data.visibility / 1000).toFixed(1)} km
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div 
-          whileHover={{ scale: 1.05 }}
-          className={`rounded-xl p-4 ${isMorning ? 'bg-white/10 border border-white/20' : 'bg-white/5 border border-white/10'}`}
-        >
-          <div className={`flex items-center gap-2 mb-2 ${isMorning ? 'text-white/90' : 'text-blue-300'}`}>
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-2 text-white/80">
             <Gauge className="w-4 h-4" />
-            <span className="text-sm font-semibold">Pressure</span>
+            <span className="text-sm">Pressure</span>
           </div>
           <p className="text-2xl font-bold text-white">{data.main.pressure} hPa</p>
-        </motion.div>
+        </div>
       </div>
-    </CardComponent>
+    </motion.div>
   );
 };
 
